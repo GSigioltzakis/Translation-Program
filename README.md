@@ -1,39 +1,35 @@
-# Assignment1: Translate Program
+# Greek to Greeklish Translator GR->US
 
-## Make Repository Private and Add TAs as Members
-You can make the repo private and add TAs as members by hand or using
-the private.py script
+A simple C program that acts as a command-line filter to translate Greek text (ISO-8859-7) into Greeklish. It reads from `stdin`, writes the translation to `stdout`, and handles common letter combinations.
 
-### By Hand
-1. Go to Project Settings -> General
-2. Visibility
-3. Change Project Visibility to Private
+## Features
 
-Also add the TA in your project
-1. Go to ProjectSettings -> Members
-2. Add GEORGIOS XANTHAKIS (csdp1246) as a Developer
+* Directly maps most Greek characters to their Latin counterparts (e.g., `Α` -> `A`, `φ` -> `f`).
+* Uses a simple Finite State Machine (FSM) to handle special two-character combinations:
+    * `ντ` / `ΝΤ` -> `d` / `D`
+    * `μπ` / `ΜΠ` -> `b` / `B`
+* Also handles accented characters and diacritics (`ί` -> `i'`, `ΐ` -> `i'"`).
 
-### Using the Script
+## How to Use
 
-The private.py script is written in [Python 3](https://www.python.org/). 
-To run private.py script, please have 
-**Python 3.4 or higher**, **Git 1.8 or higher** and **python-gitlab** installed.
+1.  **Compile it:**
+    ```bash
+    gcc main.c -o translator
+    ```
 
-* Install gitlab lib
-```
-pip3 install --upgrade python-gitlab --user
-```
+2.  **Run it:**
+    It works as a standard Unix filter. You can pipe text to it or redirect a file.
 
-* Run the script
-```
-python3 private.py -t <personal token> -p <project_ id>
-```
-## Submission
-* You should submit the source files of each assignment. Do not submit the object or executable file
-* Commit all files (not executables or object files!)
+    **Example with `echo`:**
+    ```bash
+    echo "Μια πρόταση με ντομάτα και μπάσκετ." | ./translator
+    ```
+    **Output:**
+    ```
+    Mia protash me domata kai basket.
+    ```
 
-```
-git add file1.c file2.c file3.c
-git commit -m "Commit message"
-git push
-```
+    **Example with a file:**
+    ```bash
+    ./translator < my_greek_file.txt > my_greeklish_file.txt
+    ```
